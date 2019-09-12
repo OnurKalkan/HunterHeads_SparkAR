@@ -2,23 +2,34 @@ const Scene = require('Scene');
 const CameraInfo = require('CameraInfo');
 const Animation = require('Animation');
 const Materials = require('Materials');
-//const Diagnostics = require('Diagnostics');
+const Diagnostics = require('Diagnostics');
 const Time = require('Time');
+const FaceGestures = require('FaceGestures');
+const FaceTracking = require('FaceTracking');
 
+const face = FaceTracking.face(0);
 const plane1 = Scene.root.find('LeftFood');
 const plane2 = Scene.root.find('RightFood');
 const plane3 = Scene.root.find('DownFood');
 const plane4 = Scene.root.find('UpFood');
 const TimerText = Scene.root.find('TimerText2');
-//const ScoreText = Scene.root.find('ScoreText');
 const driver1time = 5000;
 const driver2time = 9000;
 const driver3time = 7000;
 const driver4time = 11000;
 const oneSecond = 1000;
 var x = 15;
+//Diagnostics.log('Yellow World!');
 
-//I just added a dummy comment
+var mouthOpened = FaceGestures.hasMouthOpen(face);
+var headLeft = FaceGestures.isTurnedLeft(face);
+var winking = mouthOpened.and(headLeft);
+
+plane1.hidden = winking;
+
+if (plane1.transform.y == 0) {
+    Diagnostics.log('Yellow World!');
+}
 
 var foods = ['Donut', 'Cake', 'IceCream', 'Cupcake', 'Pie', 'Broccoli', 'Carrot', 'Eggplant', 'Pepper', 'Tomato', 'Crab', 'Fish', 'Octo', 'Shrimp', 'Turtle'];
 
@@ -32,11 +43,6 @@ const timeDriver = Animation.timeDriver(timeDriverParameters);
 const timeDriver2 = Animation.timeDriver(timeDriverParameters2);
 const timeDriver3 = Animation.timeDriver(timeDriverParameters3);
 const timeDriver4 = Animation.timeDriver(timeDriverParameters4);
-
-/*timeDriver.start();
-timeDriver2.start();
-timeDriver3.start();
-timeDriver4.start();*/
 
 function ChangePlane1Mat() {
     var ranNo = Math.floor(Math.random() * 15);
@@ -68,6 +74,10 @@ plane2.transform.x = translationAnimation2;
 plane3.transform.y = translationAnimation3;
 plane4.transform.y = translationAnimation4;
 
+timeDriver.start();
+timeDriver2.start();
+timeDriver3.start();
+timeDriver4.start();
 
 CameraInfo.isRecordingVideo.monitor().subscribeWithSnapshot({ isRecording: CameraInfo.isRecordingVideo },
     function (snapshot) {
@@ -95,7 +105,6 @@ function TimerOnText() {
     if (x > 0) {
         x = x - 1;
     }
-
 }
 
 function ChangePlane2Mat() {
