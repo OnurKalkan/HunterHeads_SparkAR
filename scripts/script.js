@@ -1,10 +1,11 @@
 const Scene = require('Scene');
 const Patches = require('Patches');
 const Diagnostics = require('Diagnostics');
+const CameraInfo = require('CameraInfo');
 
-const myPulse = 1;
 
-Patches.setPulseValue('myPulse', myPulse);
+const isR1 = CameraInfo.isRecordingVideo.monitor();
+Patches.setPulseValue('myPulse', isR1);
 
-Diagnostics.log(myPulse);
+
 
