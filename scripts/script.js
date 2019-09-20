@@ -29,25 +29,19 @@ const LFood = Scene.root.find('Left Food');
 const UFood = Scene.root.find('Up Food');
 const UnFood = Scene.root.find('Under Food');
 
-const GLeft = Scene.root.find('GoodLeft');
-const GRight = Scene.root.find('GoodRight');
-const GUp = Scene.root.find('GoodUp');
-const GDown = Scene.root.find('GoodDown');
-const ONLeft = Scene.root.find('Oh-No Left');
-const ONRight = Scene.root.find('Oh-No Right');
-const ONUp = Scene.root.find('Oh-No Up');
-const ONDown = Scene.root.find('Oh-No Down');
+const GLeft = Scene.root.find('Good Sea');
+const GRight = Scene.root.find('Good Sweets');
+const GUp = Scene.root.find('Good Veggies');
+const ONLeft = Scene.root.find('Oh-No Sea');
+const ONRight = Scene.root.find('Oh-No Sweets');
+const ONUp = Scene.root.find('Oh-No Veggies');
 
 const GLeftT = GLeft.transform;
 const GRightT = GRight.transform;
 const GUpT = GUp.transform;
-const GDownT = GDown.transform;
 const ONLeftT = ONLeft.transform;
 const ONRightT = ONRight.transform;
 const ONUpT = ONUp.transform;
-const ONDownT = ONDown.transform;
-
-
 
 ScoreCanvas.hidden = true;
 
@@ -91,11 +85,9 @@ function TimerOnText()
         GLeftT.x = 1;
         GRightT.x = 1;
         GUpT.x = 1;
-        GDownT.x = 1;
         ONLeftT.x = 1;
         ONRightT.x = 1;
         ONUpT.x = 1;
-        ONDownT.x = 1;
     }
     TimerText.text = 'Time: ' + xValue.toString();
 }
