@@ -25,22 +25,23 @@ const Fish_Mat_1 = Materials.get('Sea Foods Mat');
 const Fish_Mat_2 = Materials.get('RedSea');
 
 const HeartShaped = Scene.root.find('emitter0');
+const HeartShaped2 = Scene.root.find('emitter1');
+const HeartShaped3 = Scene.root.find('emitter2');
 HeartShaped.hidden = true;
+HeartShaped2.hidden = true;
+HeartShaped3.hidden = true;
 
 const RFood = Scene.root.find('Sw Right Food');
 const LFood = Scene.root.find('Sw Left Food');
 const UFood = Scene.root.find('Sw Up Food');
-const UnFood = Scene.root.find('Sw Under Food');
 //
 const LSFood = Scene.root.find('Sea Left Food');
 const RSFood = Scene.root.find('Sea Right Food');
 const USFood = Scene.root.find('Sea Up Food');
-const DSFood = Scene.root.find('Sea Under Food');
 //
 const VLFood = Scene.root.find('Veg Left Food');
 const VRFood = Scene.root.find('Veg Right Food');
 const VUFood = Scene.root.find('Veg Up Food');
-const VDFood = Scene.root.find('Veg Under Food');
 
 const GLeft = Scene.root.find('Good Sea');
 const GRight = Scene.root.find('Good Sweets');
@@ -57,6 +58,11 @@ const ONRightT = ONRight.transform;
 const ONUpT = ONUp.transform;
 
 ScoreCanvas.hidden = true;
+
+const isCapturingPhoto = CameraInfo.isCapturingPhoto;
+const hidePlane = isCapturingPhoto;
+TimerText.hidden = hidePlane;
+StarterCanvas.hidden = hidePlane;
 
 const isR1 = CameraInfo.isRecordingVideo.monitor();
 Patches.setPulseValue('myPulse', isR1);
@@ -84,25 +90,24 @@ function TimerOnText()
     if (xValue > 1)
     {
         xValue--;        
-    }
+    }    
     else if (xValue == 1)
     {
         ScoreCanvas.hidden = false;
-        Crown.hidden = false;
+        Crown.hidden = false;        
         HeartShaped.hidden = false;
+        HeartShaped2.hidden = false;
+        HeartShaped3.hidden = false;
 
         RFood.hidden = true;
         LFood.hidden = true;
         UFood.hidden = true;
-        UnFood.hidden = true;
         LSFood.hidden = true;
         RSFood.hidden = true;
         USFood.hidden = true;
-        DSFood.hidden = true;
         VLFood.hidden = true;
         VRFood.hidden = true;
         VUFood.hidden = true;
-        VDFood.hidden = true;
 
         stopIntervalTimer();
         xValue--;
