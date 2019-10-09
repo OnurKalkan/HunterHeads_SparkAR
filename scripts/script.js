@@ -1,35 +1,51 @@
 const Scene = require('Scene');
 const Patches = require('Patches');
-const Diagnostics = require('Diagnostics');
 const CameraInfo = require('CameraInfo');
 const Time = require('Time');
-const TouchGestures = require('TouchGestures');
-const Materials = require('Materials');
+const NativeUI = require('NativeUI');
+const Textures = require('Textures'); 
 
 var ScorePlane = Scene.root.find('Score Text');
 const TimerText = Scene.root.find('Timer Text');
 const ScoreCanvas = Scene.root.find('Score Screen Canvas');
-const StarterCanvas = Scene.root.find('Start Screen Canvas');
 const Crown = Scene.root.find('Crown Plane');
 var xValue = 13;
+TimerText.hidden = true; 
 
-const plane_C_Sweets = Scene.root.find('ChooseSweets');
-const plane_C_Veggies = Scene.root.find('ChooseVeggies');
-const plane_C_Fishes = Scene.root.find('ChooseSea');
 //
-const Sweet_Mat_1 = Materials.get('Sweet Foods Mat');
-const Sweet_Mat_2 = Materials.get('RedSweet');
-const Veggies_Mat_1 = Materials.get('Veggie Foods Mat');
-const Veggies_Mat_2 = Materials.get('RedVeg');
-const Fish_Mat_1 = Materials.get('Sea Foods Mat');
-const Fish_Mat_2 = Materials.get('RedSea');
+//Picker Script starts here
+//
+const sweetTex = Textures.get('sweets');
+const vegTex = Textures.get('veggies');
+const seaTex = Textures.get('seafood'); 
+//
+const picker = NativeUI.picker;
+const index = 0;
+//
+const configuration = {
+
+    selectedIndex: index,
+
+    items: [
+        { image_texture: seaTex },
+        { image_texture: sweetTex },
+        { image_texture: vegTex }
+    ]
+};
+//
+picker.configure(configuration);
+picker.visible = true;
+//
+picker.selectedIndex.monitor().subscribe(function (index) {
+    var indexNum = index.newValue;
+    Patches.setScalarValue('indexNum', indexNum);
+});  
+//
+//Picker Script ends here
+//
 
 const HeartShaped = Scene.root.find('emitter0');
-const HeartShaped2 = Scene.root.find('emitter1');
-const HeartShaped3 = Scene.root.find('emitter2');
 HeartShaped.hidden = true;
-HeartShaped2.hidden = true;
-HeartShaped3.hidden = true;
 
 const RFood = Scene.root.find('Sw Right Food');
 const LFood = Scene.root.find('Sw Left Food');
@@ -58,11 +74,6 @@ const ONRightT = ONRight.transform;
 const ONUpT = ONUp.transform;
 
 ScoreCanvas.hidden = true;
-
-const isCapturingPhoto = CameraInfo.isCapturingPhoto;
-const hidePlane = isCapturingPhoto;
-TimerText.hidden = hidePlane;
-StarterCanvas.hidden = hidePlane;
 
 const isR1 = CameraInfo.isRecordingVideo.monitor();
 Patches.setPulseValue('myPulse', isR1);
@@ -96,8 +107,6 @@ function TimerOnText()
         ScoreCanvas.hidden = false;
         Crown.hidden = false;        
         HeartShaped.hidden = false;
-        HeartShaped2.hidden = false;
-        HeartShaped3.hidden = false;
 
         RFood.hidden = true;
         LFood.hidden = true;
@@ -126,32 +135,15 @@ CameraInfo.isRecordingVideo.monitor().subscribeWithSnapshot({ isRecording: Camer
         if (snapshot.newValue == true && snapshot.oldValue == false)
         {
             Time.setInterval(TimerOnText, oneSecond);
-            StarterCanvas.hidden = true;
+            picker.visible = false;
+            TimerText.hidden = false; 
         }
         else
         {            
+            picker.visible = true;
             TimerText.hidden = true;            
         }
     })
-
-TouchGestures.onTap(plane_C_Sweets).subscribe(function (gesture)
-{
-    plane_C_Sweets.material = Sweet_Mat_2;
-    plane_C_Veggies.material = Veggies_Mat_1;
-    plane_C_Fishes.material = Fish_Mat_1;
-});
-
-TouchGestures.onTap(plane_C_Veggies).subscribe(function (gesture) {
-    plane_C_Sweets.material = Sweet_Mat_1;
-    plane_C_Veggies.material = Veggies_Mat_2;
-    plane_C_Fishes.material = Fish_Mat_1;
-});
-
-TouchGestures.onTap(plane_C_Fishes).subscribe(function (gesture) {
-    plane_C_Sweets.material = Sweet_Mat_1;
-    plane_C_Veggies.material = Veggies_Mat_1;
-    plane_C_Fishes.material = Fish_Mat_2;
-});
 
 
 
